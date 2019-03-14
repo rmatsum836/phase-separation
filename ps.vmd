@@ -1,0 +1,24 @@
+# VMD for MACOSXX86, version 1.9.1 (February 4, 2012)
+# Log file 'check-phase-separation.vmd', created by user mwt
+display resize 1000 1000
+axes location Off
+scale by 2.000000
+mol modcolor 0 0 ResName
+mol modstyle 0 0 VDW 0.800000 12.000000
+translate by 0.000000 0.000000 -0.010000
+translate by 0.000000 0.000000 -0.040000
+translate by 0.000000 0.000000 -0.110000
+translate by 0.000000 0.000000 -0.110000
+translate by 0.000000 0.000000 -0.100000
+translate by 0.000000 0.000000 -0.100000
+translate by 0.000000 0.000000 -0.040000
+
+#render TachyonInternal ps-1.tga
+#rotate x by 45
+#render TachyonInternal ps-2.tga
+#rotate x by -45
+#rotate x by 135
+#render TachyonInternal ps-3.tga
+quit
+# VMD for MACOSXX86, version 1.9.1 (February 4, 2012)
+# end of log file.
