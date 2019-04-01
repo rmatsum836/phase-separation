@@ -5,7 +5,7 @@ import matplotlib.patches as mpatches
 from matplotlib import rcParams
 from scipy.signal import convolve2d
 from scipy.ndimage import gaussian_filter, convolve1d
-from skimage.io import imread
+from skimage.io import imread, imsave
 from skimage.filters import threshold_otsu
 from skimage.segmentation import clear_border
 from skimage.measure import label, regionprops
@@ -29,14 +29,17 @@ def convolveImage(image, kernel):
     return convolved.astype(int)
 
 
-def apply_otsu(gray):
+def apply_otsu(gray, out_file=None, save=True):
     thresh_otsu = threshold_otsu(gray)
     im_bw = gray > thresh_otsu
+    
+    if save == True:
+        imsave(out_file, gray)
 
     return im_bw
 
 
-def cutoff_particles(image, image_props, cutoff=300):
+def cutoff_particles(image, image_props, cutoff=300, out_file=None, save=None):
     im_bw_filt = image > 1
 
     n_regions = 0
@@ -45,6 +48,9 @@ def cutoff_particles(image, image_props, cutoff=300):
             im_bw_filt[image==prop.label] == False
         else:
             n_regions += 1
+
+    if save == True:
+        imsave(out_file, im_bw_filt)
 
     print('Number of individual regions = {}'.format(n_regions))
 
