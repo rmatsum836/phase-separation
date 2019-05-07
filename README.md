@@ -1,4 +1,7 @@
 # phase-separation
+
+![homo-labeled](https://user-images.githubusercontent.com/25011342/57324525-957b4080-70cd-11e9-847b-9fc9748e6ba4.png)
+
 ### A package to determine clusters in simulations of mixtures.  Some of the work based off of: https://github.com/upandacross/Hetrogenous-vs-Homogenous
 
 This package contains functions in Python that allow a user to determine the amount
