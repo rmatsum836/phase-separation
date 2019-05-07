@@ -56,45 +56,30 @@ def _cutoff_particles(image, image_props, cutoff=300):
     
     return n_regions
 
-homo_list = list()
-homo_max = list()
-homo_total = list()
-hetero_list = list()
-hetero_max = list()
-hetero_total = list()
 
-print("Now looking at heterogenous systems")
+def count_connections(filepath, labeled_path, img_filetype='png', plot=False)
+    component_list = list()
+    max_list = list()
+    total_list = list()
+    for img_file in glob.iglob('{}/*.{}'.format(img_file, img_filetype)):
+        image = imread(img_file)
+        filename = filepath.split('/')[-1]
+        test = label_regions(image, '{}/{}'.format(labeled_path,filename), plot=True)
+        im_labeled, n_labels = label(image, background=0, return_num=True)
+        im_labeled += 1
+        im_props = regionprops(im_labeled)
+        n_regions = _cutoff_particles(im_labeled, im_props, cutoff=1000)
+        if len(regionprops(label(image))) == 0:
+            max_area = 0
+        else:
+            max_area = np.max([region.area for region in regionprops(label(image))])
 
-for filepath in glob.iglob('/raid6/homes/raymat/science/keras-phase-sep/data-otsu/train/hetero/*.png'):
-    image = imread(filepath)
-    filename = filepath.split('/')[-1]
-    test = label_regions(image, 'data-labeled/{}'.format(filename), plot=True)
-    im_labeled, n_labels = label(image, background=0, return_num=True)
-    im_labeled += 1
-    im_props = regionprops(im_labeled)
-    n_regions = _cutoff_particles(im_labeled, im_props, cutoff=1000)
-    if len(regionprops(label(image))) == 0:
-        max_area = 0
-    else:
-        max_area = np.max([region.area for region in regionprops(label(image))])
-    hetero_max.append(max_area)
-    hetero_list.append(n_regions)
-    hetero_total.append(test)
+        component_list.append(n_regions)
+        total_list.append(test)
+        max_list.append(max_area)
 
-for filepath in glob.iglob('/raid6/homes/raymat/science/keras-phase-sep/data-otsu/train/homo/*.png'):
-    image = imread(filepath)
-    filename = filepath.split('/')[-1]
-    test = label_regions(image, 'data-labeled/{}'.format(filename), plot=True)
-    
-    im_labeled, n_labels = label(image, background=0, return_num=True)
-    im_labeled += 1
-    
-    im_props = regionprops(im_labeled)
-    n_regions = _cutoff_particles(im_labeled, im_props, cutoff=1000)
-    max_area = np.max([region.area for region in regionprops(label(image))])
-    homo_max.append(max_area)
-    homo_list.append(n_regions)
-    homo_total.append(test)
+        return component_list, total_list, max_list
+
 
 np.savetxt('results/hetero-components.txt', hetero_list)
 np.savetxt('results/homo-components.txt', homo_list)
