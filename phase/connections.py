@@ -57,7 +57,7 @@ def _cutoff_particles(image, image_props, cutoff=300):
     return n_regions
 
 
-def count_connections(filepath, labeled_path, img_filetype='png', plot=False)
+def count_connections(filepath, labeled_path, img_filetype='png', plot=False):
     component_list = list()
     max_list = list()
     total_list = list()
