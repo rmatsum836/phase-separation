@@ -43,10 +43,10 @@ def label_regions(image, filename, plot=False):
 
 def _cutoff_particles(image, image_props, cutoff=300):
     im_bw_filt = image > 1
-    
+
     # Loop through image properties and delete small objects
     n_regions = 0
-    for prop in im_props:
+    for prop in image_props:
         if prop.area < cutoff:
             im_bw_filt[image==prop.label] == False
         else:
@@ -61,7 +61,7 @@ def count_connections(filepath, labeled_path, img_filetype='png', plot=False):
     component_list = list()
     max_list = list()
     total_list = list()
-    for img_file in glob.iglob('{}/*.{}'.format(img_file, img_filetype)):
+    for img_file in glob.iglob('{}/*.{}'.format(filepath, img_filetype)):
         image = imread(img_file)
         filename = filepath.split('/')[-1]
         test = label_regions(image, '{}/{}'.format(labeled_path,filename), plot=True)
@@ -78,19 +78,4 @@ def count_connections(filepath, labeled_path, img_filetype='png', plot=False):
         total_list.append(test)
         max_list.append(max_area)
 
-        return component_list, total_list, max_list
-
-
-np.savetxt('results/hetero-components.txt', hetero_list)
-np.savetxt('results/homo-components.txt', homo_list)
-np.savetxt('results/hetero-max.txt', hetero_max)
-np.savetxt('results/homo-max.txt', homo_max)
-np.savetxt('results/homo-total-area.txt', homo_total)
-np.savetxt('results/hetero-total-area.txt', hetero_total)
-
-fig, ax = plt.subplots(figsize=(8,5))
-ax.hist(hetero_list, bins=80, label='hetero')
-ax.hist(homo_list, bins=80, label='homo')
-plt.xlabel('Number of Regions')
-plt.ylabel('Count')
-plt.savefig('results/components.pdf')
+    return component_list, total_list, max_list
