@@ -3,4 +3,5 @@ glob
 skimage
 sklearn
 opencv
-VMD
+pytest
+setuptools
