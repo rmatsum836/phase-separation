@@ -32,12 +32,12 @@ def convolveImage(image, kernel):
     return convolved.astype(int)
 
 
-def apply_otsu(gray,dom_color,out_file=None, save=True):
+def apply_otsu(gray,dom_color,out_file=None, save=False):
     thresh_otsu = threshold_otsu(gray)
     if dom_color == 2:
         im_bw = gray > thresh_otsu
     elif dom_color == 0:
-        im_bw - gray < thresh_otsu
+        im_bw = gray < thresh_otsu
 
     if save == True:
         imsave(out_file, gray)
@@ -55,7 +55,7 @@ def remove_border(image):
 
 
 def get_dominant_color(image, clusters=1):
-    dc = DominantColors(image, clusters)
+    dc = DominantColors(image=image, clusters=clusters)
     colors = dc.dominantColors()
     dominant = list(colors[0]).index(max(colors[0]))
 
@@ -87,16 +87,15 @@ class DominantColors:
     COLORS = None
     LABELS = None
 
-    def __init__(self, image, clusters, filename):
+    def __init__(self, image, clusters):
         self.CLUSTERS = clusters
         self.IMAGE = image
-        self.FILE = filename
 
     def dominantColors(self):
 
         #read image
-        img = cv2.imread(self.IMAGE)
-        img = cv2.resize(img, dsize=(50, 50), interpolation=cv2.INTER_CUBIC)
+        #img = cv2.imread(self.IMAGE)
+        img = cv2.resize(self.IMAGE, dsize=(50, 50), interpolation=cv2.INTER_CUBIC)
 
         #convert to rgb from bgr
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

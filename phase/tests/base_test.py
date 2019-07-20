@@ -1,6 +1,7 @@
 import pytest
 import cv2
 import os
+import numpy as np
 from pkg_resources import resource_filename
 
 
@@ -25,3 +26,11 @@ class BaseTest:
         image = cv2.imread(os.path.join(TESTFILE_DIR, 'hetero.png'))
         
         return image
+
+    @pytest.fixture
+    def kernels(self):
+        kernel_size = 10
+        kernel = np.ones((kernel_size, kernel_size)) / kernel_size
+        kernel[0,:]
+
+        return kernel
