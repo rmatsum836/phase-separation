@@ -1,7 +1,7 @@
 numpy
-glob
-skimage
-sklearn
+glob2
+scikit-image
+scikit-learn
 opencv
 pytest
 setuptools
