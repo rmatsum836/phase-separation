@@ -19,6 +19,15 @@ A collection of functions to process images of ionic liquid-solvent mixtures
 """
 
 def convolveImage(image, kernel):
+    """
+    Perform image convolution
+
+    Parameters
+    ----------
+    image: image array
+    kernel: 2-d array
+        Convolution matrix
+    """
     def scaleIt(cvld):
         cvld[cvld > 255.0] = 255.0
         cvld[cvld < 0.0] = 0.0
@@ -33,6 +42,25 @@ def convolveImage(image, kernel):
 
 
 def apply_otsu(gray,dom_color,out_file=None, save=False):
+    """
+    Apply Otsu's threshold method to the gray image
+
+    Parameters
+    ----------
+    gray: image array
+        gray image
+    dom_color: int
+        index of dominant color from RGB array
+    out_file: str, default=None
+        filename to save threshold image
+    save: bool, defaule=False
+        save image
+
+    Returns
+    -------
+    im_bw: image array
+        threshold image array
+    """
     thresh_otsu = threshold_otsu(gray)
     if dom_color == 2:
         im_bw = gray > thresh_otsu
@@ -46,6 +74,9 @@ def apply_otsu(gray,dom_color,out_file=None, save=False):
 
 
 def remove_border(image):
+    """
+    Remove whitespace border from rendered VMD image
+    """
     image[:,:90] = 0
     image[:,-90:] = 0
     image[:90,:] = 0
@@ -55,6 +86,15 @@ def remove_border(image):
 
 
 def get_dominant_color(image, clusters=1):
+    """
+    Call DominantColors class to get dominant color
+
+    Parameters
+    ----------
+    image: image array
+    clusters: int, default=1
+        Number of cluster in k-means clustering
+    """
     dc = DominantColors(image=image, clusters=clusters)
     colors = dc.dominantColors()
     dominant = list(colors[0]).index(max(colors[0]))
@@ -81,6 +121,9 @@ def cutoff_particles(image, image_props, cutoff=300, out_file=None, save=None):
 
 
 class DominantColors:
+    """
+    Use K-means clustering to determine the dominant color in the image
+    """
 
     CLUSTERS = None
     IMAGE = None
