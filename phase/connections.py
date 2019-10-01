@@ -14,7 +14,19 @@ from skimage.color import label2rgb
 import glob
 
 
-def label_regions(image, filename, plot=False):
+def label_regions(image, filename='labeled.pdf', plot=False):
+    """
+    Takes a properly thresholded image and label the components
+    
+    Parameters
+    ----------
+    image: array
+        Thresholded image array
+    filename: str, default='labeled.pdf'
+        filename if 'plot=True'
+    plot: bool, default=False
+        Determine whether or not to plot the image
+    """
     total_area = list()
     label_image = label(image)
     image_label_overlay = label2rgb(label_image, image=image)
@@ -42,6 +54,23 @@ def label_regions(image, filename, plot=False):
 
 
 def _cutoff_particles(image, image_props, cutoff=300):
+    """
+    Helper function that removes connected components that are below a certain cutoff area
+
+    Parameters
+    ----------
+    image: array
+        image array of thresholded image
+    image_props: list
+        list of connected components counted
+    cutoff: int, default=300
+        Threshold area that determines whether or not to delete a connected component
+
+    Returns
+    -------
+    n_regions: int
+        Number of connected components after cutoff
+    """
     im_bw_filt = image > 1
 
     # Loop through image properties and delete small objects
@@ -58,6 +87,29 @@ def _cutoff_particles(image, image_props, cutoff=300):
 
 
 def count_connections(filepath, labeled_path, img_filetype='png', plot=False):
+    """
+    Function that counts the components in the threshold image
+
+    Parameters
+    ----------
+    filepath: str
+        Path of images
+    labeled_path: str
+        Path to write labeled images to
+    img_filetype: str, default='png'
+        Filetype extension to write out to
+    plot: bool, default=False
+        If true, will plot the labeled image
+
+    Returns
+    -------
+    component_list: list
+        Number of components counted in each image array
+    total_list: list
+        Total area of components in each image array
+    max_list: list
+        Maximum area of component determined in each image array
+    """
     component_list = list()
     max_list = list()
     total_list = list()
