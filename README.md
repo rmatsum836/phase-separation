@@ -1,4 +1,5 @@
 # phase-separation
+[![Build Status](https://travis-ci.org/rmatsum836/phase-separation.svg?branch=master)](https://travis-ci.org/rmatsum836/phase-separation)
 
 <img src="https://user-images.githubusercontent.com/25011342/57324525-957b4080-70cd-11e9-847b-9fc9748e6ba4.png" width="250px" height="250px" />
 
